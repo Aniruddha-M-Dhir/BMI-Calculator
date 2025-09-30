@@ -1,0 +1,149 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.Scanner;
+public class BMI_CSC215_Metric_AniruddhaMadhusudanDhir {
+    static double height = 0;
+    static double bmiMet = 0;
+    static String fullName="";
+    static double weightInKg = 0;
+    static double bmiMet1 = 0;
+    static float bmiMetRound1 = 0 ;
+    public static void main(String[] args) {
+        run();
+
+    }
+
+    public static void run(){
+        helloMessage();
+        userDetails();
+        bmiCalculator2(height , weightInKg);
+        summaryReport(fullName);
+        //lowHighWeightPounds();
+        displayTable();
+        endingMessage();
+    }
+    public static void helloMessage(){
+        System.out.println("-".repeat(100));
+        System.out.println("-- Welcome to:");
+        System.out.println("--"+" ".repeat(12) + "BODY MASS INDEX (BMI) Computation, CSC 215, Metric version");
+        System.out.println("--"+" ".repeat(67) + "by Aniruddha Madhusudan Dhir");
+        System.out.println("-".repeat(100));
+    }
+    public static void userDetails(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println();
+        System.out.print("Please enter your full name: ");
+        fullName = sc.nextLine();
+        //System.out.println();
+        System.out.printf("Please enter height in centimeters for %s: ",fullName);
+        int heightCm = sc.nextInt();
+        System.out.printf("Please enter weight in Kilograms for %s: ",fullName);
+        weightInKg = sc.nextDouble();
+        height = (double)heightCm/100 ;// converting height to m
+        System.out.println();
+    }
+    public static double bmiCalculator2(double height , double weightInKg){
+        bmiMet = (weightInKg)/(height*height);
+        bmiMetRound1 = Math.round(bmiMet);
+        return bmiMet;
+
+    }
+    public static String bmiResult(double bmiMet){
+        //String bmiResult = "";
+        if (bmiMet<18.5){
+            return "underweight";
+        }
+        else if(bmiMet<=24.9){
+            return "Healthy Weight";
+        }
+        else if(bmiMet<=29.9){
+            return "Overweight";
+        }
+        else{
+            return "Obesity";
+        }
+    }
+    public static void summaryReport(String fullName){
+        System.out.println("-- SUMMARY REPORT for "+fullName);
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy 'at' hh:mm:ss a");
+        System.out.println("-- Date and Time:           " + now.format(formatter));
+        System.out.println("-- BMI: "+" ".repeat(20)+ bmiMet +" (or "+bmiMetRound1+" if rounded)");
+        System.out.printf("-- Weiht Status: "+" ".repeat(11)+ bmiResult(bmiMet));
+        System.out.println();
+
+
+    }
+
+    public static int lowHighWeightPounds(){
+        System.out.println();
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Please enter the LOW weight in pounds for " + fullName+": ");
+        double lowWeightInPounds = sc.nextDouble();
+        System.out.print("Please enter the HIGH weight in pounds for " + fullName+": ");
+        double highWeightInPounds = sc.nextDouble();
+        return 0;
+
+    }
+    public static void endingMessage(){
+        System.out.println();
+        System.out.println();
+        System.out.println("The SFSU Mashouf Wellness Center is at 755 Font Blvd.");
+        System.out.println();
+        System.out.println("-".repeat(100));
+        System.out.println("-- Thank yoy for using using my program, "+fullName+"!");
+        if (fullName=="Otto Minion"){
+            System.out.println("-- Poopaye!!!");
+        }
+        else if( fullName=="Baymax Hamada"){
+            System.out.println("-- sayõnara!!!");
+        }
+        else{
+            System.out.println("-- Ear-esistable!!!");
+        }
+        System.out.println("-".repeat(100));
+    }
+    public static void displayTable(float lowWeightInPounds, float highWeightInPounds, int z) {
+        System.out.println("\n|    Weight (lbs)    |    BMI    |    Weight Status    |");
+        System.out.println("-".repeat(50));
+
+
+    }
+
+    public static void displayTable(){
+        System.out.println();
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Please enter the LOW weight in Kilograms for " + fullName+": ");
+        double lowWeightInPounds = sc.nextDouble();
+        System.out.print("Please enter the HIGH weight in Kilograms for " + fullName+": ");
+        double highWeightInPounds = sc.nextDouble();
+        System.out.println("-".repeat(50));
+        System.out.println("\n|    Weight     |    BMI    |    Weight Status    |");
+        System.out.println("-".repeat(50));
+        for (double newWeight = lowWeightInPounds; newWeight <= highWeightInPounds; newWeight +=5.5 ){
+
+            double newBmi = bmiCalculator2(height,newWeight);
+            String weightStatus = bmiResult(newBmi);
+            if(weightInKg > newWeight && weightInKg < (newWeight+5.5)){
+                System.out.printf("| %15.2f | %8.2f | %17s (This) |%n", weightInKg, bmiMet, bmiResult(newBmi));
+
+            }
+            System.out.printf("| %15.2f | %8.2f | %17s |%n", newWeight, newBmi, bmiResult(newBmi));
+
+        }
+        System.out.println("-".repeat(50));
+        //System.out.println(41%3);
+    }
+
+}
+
+
+
+
+
+
